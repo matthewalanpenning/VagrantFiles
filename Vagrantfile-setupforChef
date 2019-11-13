@@ -1,0 +1,47 @@
+Vagrant.configure("2") do |config|
+
+
+  config.vm.define "chefserver" do |ubuntu|
+    ubuntu.vm.box = "ubuntu/bionic64"
+    ubuntu.vm.hostname = "chefserver"
+    #ubuntu.vm.network "forwarded_port", guest: 64738, host: 64738
+    ubuntu.vm.network "private_network", ip: "192.168.50.10",
+      virtualbox__intnet: true
+    ubuntu.vm.provider "virtualbox" do |vb|
+      vb.memory = "2048"
+    end
+    ubuntu.vm.provision "shell", inline: <<-SHELL
+      apt-get update
+    SHELL
+  end
+
+
+  config.vm.define "chefnode1" do |ubuntu|
+    ubuntu.vm.box = "ubuntu/bionic64"
+    ubuntu.vm.hostname = "chefnode1"
+    #ubuntu.vm.network "forwarded_port", guest: 64738, host: 64738
+    ubuntu.vm.network "private_network", ip: "192.168.50.20",
+      virtualbox__intnet: true
+    ubuntu.vm.provider "virtualbox" do |vb|
+      vb.memory = "512"
+    end
+    ubuntu.vm.provision "shell", inline: <<-SHELL
+      apt-get update
+    SHELL
+  end
+
+
+  config.vm.define "chefnode2" do |ubuntu|
+    ubuntu.vm.box = "ubuntu/bionic64"
+    ubuntu.vm.hostname = "chefnode2"
+    #ubuntu.vm.network "forwarded_port", guest: 64738, host: 64738
+    ubuntu.vm.provider "virtualbox" do |vb|
+      vb.memory = "512"
+    end
+    ubuntu.vm.provision "shell", inline: <<-SHELL
+      apt-get update
+    SHELL
+  end
+
+
+end
